@@ -1,0 +1,33 @@
+start server;
+start 3 clients;
+Send in some messages from all clients;
+use client1 to establish a private conversation with client2;
+Send in some messages from all clients;
+
+expected behavior here: client 3 can't hear anything from client1, client3 attempting @private on client2 fails;
+
+test @end with client1;
+
+expected behavior here: client 1 can be heard by all clients;
+Send in some messages from all clients;
+
+reestablish client1->client2 @private;
+Client 1: @exit;
+
+expected behavior here: client 1 exits, client 2 is no longer considered in a private conversation;
+Send in some messages from all clients;
+
+start client 4;
+establish @private client4->client2;
+client2: @exit;
+
+expected behavior here: Client2 exits, client 4 goes from private to public;
+Send in some messages from all clients;
+
+end server manually;
+expected behavior here: all clients disconnect;
+
+restart server manually;
+start client6;
+
+expected behavior here: server sends client6 a complete list of all messages passed to the server;
